@@ -28,7 +28,7 @@ async function cadastrarAluno(event) {
     };
        
     try {
-        const response = await fetch('/aluno', {
+        const respo = await fetch('/aluno', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -36,91 +36,92 @@ async function cadastrarAluno(event) {
             body: JSON.stringify(aluno)
         });
 
-        const result = await response.json();
-        if (response.ok) {
-            alert('Cliente cadastrado com sucesso!');
-            //document.getElementById('cliente-form').reset();
+        const result = await respo.json();
+        if (respo.ok) {
+            alert('Aluno cadastrado com sucesso!');
+            // document.getElementById('aluno-form').reset(); // Descomente se necessário
         } else {
-            alert(`Erro: ${result.message}`);
+            alert(`Erro: ${result.message || 'Erro desconhecido'}`);
         }
     } catch (err) {
         console.error('Erro na solicitação:', err);
-        alert('Erro ao cadastrar cliente.');
+        alert('Erro ao cadastrar aluno.');
     }
 }
-// Função para listar todos os clientes ou buscar alunos por cgm
-async function listarClientes() {
-    const numero_de_matricula = document.getElementById('aluno_matricula').value.trim();  // Pega o valor do cgm digitado no input
 
-    let url = '/aluno';  // URL padrão para todos os clientes
+// Função para listar todos os alunos ou buscar alunos por CPF
+async function listarAlunos() {
+    // const cpf = document.getElementById('cpf').value.trim();  // Pega o valor do CPF digitado no input
+    const nome = document.getElementById('aluno-nome').value.trim();
+    const cpf = document.getElementById('aluno-cpf').value.trim();
+    const email = document.getElementById('aluno-email').value.trim();
+    const telefone_responsavel = document.getElementById('resp0-telefone').value.trim();
 
-    if (numero_de_matricula) {
+    let url = '/alunos';  // URL padrão para todos os alunos
+
+    if (cpf) {
         // Se CPF foi digitado, adiciona o parâmetro de consulta
-        url += `?aluno_matricula=${numero_de_matricula}`;
+        url += `?cpf=${cpf}`;
     }
 
     try {
-        const response = await fetch(url);
-        const clientes = await response.json();
+        const respo = await fetch(url);
+        const aluno = await respo.json();
 
-        const tabela = document.getElementById('tabela-alunos');
+        const tabela = document.getElementById('tabela-aluno');
         tabela.innerHTML = ''; // Limpa a tabela antes de preencher
 
-        if (alunos.length === 0) {
-            // Caso não encontre clientes, exibe uma mensagem
-            tabela.innerHTML = '<tr><td colspan="6">Nenhum cliente encontrado.</td></tr>';
+        if (!Array.isArray(aluno) || aluno.length === 0) {
+            // Caso não encontre aluno, exibe uma mensagem
+            tabela.innerHTML = '<tr><td colspan="6">Nenhum aluno encontrado.</td></tr>';
         } else {
-            alunos.forEach(aluno => {
+            aluno.forEach(alunoItem => {
                 const linha = document.createElement('tr');
                 linha.innerHTML = `
-                    
-                    <td>${aluno-nome}</td>
-                    <td>${aluno-cpf}</td>
-                    <td>${aluno-email}</td>
-                    <td>${aluno-telefone}</td>
-
+                    <td>${aluno.nome}</td>
+                    <td>${aluno.cpf}</td>
+                    <td>${aluno.email}</td>
+                    <td>${respo.telefone}</td>
                 `;
                 tabela.appendChild(linha);
             });
         }
     } catch (error) {
-        console.error('Erro ao listar clientes:', error);
+        console.error('Erro ao listar alunos:', error);
     }
 }
 
-// Função para atualizar as informações do cliente
-async function atualizarCliente() {
+// Função para atualizar as informações do aluno
+async function atualizarAluno() {
     const nome = document.getElementById('aluno-nome').value;
-    const data_de_nascimento = document.getElementById('aluno-data-nascimento').value;
+    const cpf = document.getElementById('aluno-cpf').value;
+    const email = document.getElementById('aluno-email').value;
     const telefone_responsavel = document.getElementById('resp0-telefone').value;
-  
 
-    const clienteAtualizado = {
+    const alunoAtualizado = {
         nome,
+        cpf,
         email,
         telefone_responsavel,
-       
     };
 
     try {
-        const response = await fetch(`/aluno/cgm/${numero_de_matricula}`, {
+        const respo = await fetch(`/alunos/cpf/${cpf}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(clienteAtualizado)
+            body: JSON.stringify(alunoAtualizado)
         });
 
-        if (response.ok) {
-            alert('aluno atualizado com sucesso!');
+        if (respo.ok) {
+            alert('Aluno atualizado com sucesso!');
         } else {
-            const errorMessage = await response.text();
+            const errorMessage = await respo.text();
             alert('Erro ao atualizar aluno: ' + errorMessage);
         }
     } catch (error) {
-        console.error('Erro ao atualizar cliente:', error);
+        console.error('Erro ao atualizar aluno:', error);
         alert('Erro ao atualizar aluno.');
     }
 }
-
-
