@@ -77,7 +77,7 @@ async function listarAlunos() {
                     <td>${alunoItem.nome}</td>
                     <td>${alunoItem.cpf}</td>
                     <td>${alunoItem.email}</td>
-                    <td>${alunoItem.telefone}</td>
+                    <td>${respoItem.telefone}</td>
                 `;
                 tabela.appendChild(linha);
             });
@@ -90,12 +90,13 @@ async function listarAlunos() {
 // Função para atualizar as informações do aluno
 async function atualizarAluno() {
     const nome = document.getElementById('aluno-nome').value;
+    const cpf = document.getElementById('aluno-cpf').value;
     const email = document.getElementById('aluno-email').value;
     const telefone_responsavel = document.getElementById('resp0-telefone').value;
-    const cpf = document.getElementById('aluno-cpf').value;
 
     const alunoAtualizado = {
         nome,
+        cpf,
         email,
         telefone_responsavel,
     };
