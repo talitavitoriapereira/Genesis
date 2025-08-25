@@ -39,17 +39,18 @@ async function cadastrarAluno(event) {
         const result = await respo.json();
         if (respo.ok) {
             alert('Aluno cadastrado com sucesso!');
-            //document.getElementById('aluno-form').reset();
+            // document.getElementById('aluno-form').reset(); // Descomente se necessário
         } else {
-            alert(`Erro: ${result.message}`);
+            alert(`Erro: ${result.message || 'Erro desconhecido'}`);
         }
     } catch (err) {
         console.error('Erro na solicitação:', err);
         alert('Erro ao cadastrar aluno.');
     }
 }
+
 // Função para listar todos os alunos ou buscar alunos por CPF
-async function listaralunos() {
+async function listarAlunos() {
     const cpf = document.getElementById('cpf').value.trim();  // Pega o valor do CPF digitado no input
 
     let url = '/alunos';  // URL padrão para todos os alunos
@@ -61,22 +62,22 @@ async function listaralunos() {
 
     try {
         const respo = await fetch(url);
-        const aluno = await respo.json(); // Corrigido para usar respo
+        const aluno = await respo.json();
 
         const tabela = document.getElementById('tabela-aluno');
         tabela.innerHTML = ''; // Limpa a tabela antes de preencher
 
-        if (aluno.length === 0) {
+        if (!Array.isArray(aluno) || aluno.length === 0) {
             // Caso não encontre aluno, exibe uma mensagem
             tabela.innerHTML = '<tr><td colspan="6">Nenhum aluno encontrado.</td></tr>';
         } else {
-            aluno.forEach(aluno => {
+            aluno.forEach(alunoItem => {
                 const linha = document.createElement('tr');
                 linha.innerHTML = `
-                    <td>${aluno.nome}</td> <!-- Corrigido para usar aluno -->
-                    <td>${aluno.cpf}</td>
-                    <td>${aluno.email}</td>
-                    <td>${aluno.telefone}</td>
+                    <td>${alunoItem.nome}</td>
+                    <td>${alunoItem.cpf}</td>
+                    <td>${alunoItem.email}</td>
+                    <td>${alunoItem.telefone}</td>
                 `;
                 tabela.appendChild(linha);
             });
@@ -87,21 +88,20 @@ async function listaralunos() {
 }
 
 // Função para atualizar as informações do aluno
-async function atualizaraluno() {
+async function atualizarAluno() {
     const nome = document.getElementById('aluno-nome').value;
-    const email = document.getElementById('aluno-email').value; // Adicionado
+    const email = document.getElementById('aluno-email').value;
     const telefone_responsavel = document.getElementById('resp0-telefone').value;
-    const cpf = document.getElementById('aluno-cpf').value; // Adicionado
+    const cpf = document.getElementById('aluno-cpf').value;
 
     const alunoAtualizado = {
         nome,
         email,
         telefone_responsavel,
-        cpf,
     };
 
     try {
-        const respo = await fetch(`/alunos/cpf/${cpf}`, { // Corrigido para usar cpf
+        const respo = await fetch(`/alunos/cpf/${cpf}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
