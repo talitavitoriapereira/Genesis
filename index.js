@@ -54,7 +54,7 @@ const db = new sqlite3.Database('./database.db', (err) => {
         `);
 
                 db.run(`
-        CREATE TABLE IF NOT EXISTS funcionarios (
+        CREATE TABLE IF NOT EXISTS funcionario (
                id_funcionario INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome TEXT NOT NULL,
                 data_de_nascimento DATE,
@@ -113,7 +113,7 @@ app.post('/funcionario', (req, res) => {
 });
 
 // Listar funcionario
-// Endpoint para listar todos os funcionarios ou buscar por CPF
+// Endpoint para listar todos os funcionario ou buscar por CPF
 app.get('/funcionario', (req, res) => {
     const cpf = req.query.cpf || '';  // Recebe o CPF da query string (se houver)
 
@@ -137,7 +137,7 @@ app.get('/funcionario', (req, res) => {
                 console.error(err);
                 return res.status(500).json({ message: 'Erro ao buscar funcionario.' });
             }
-            res.json(rows);  // Retorna todos os funcionarios
+            res.json(rows);  // Retorna todos os funcionario
         });
     }
 });
