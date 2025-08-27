@@ -163,16 +163,6 @@ app.put('/funcionario/cpf/:cpf', (req, res) => {
 
 
 
-// Teste para verificar se o servidor está rodando
-app.get('/', (req, res) => {
-    res.send('Servidor está rodando e tabelas criadas!');
-});
-
-// Iniciando o servidor
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
-
 
 
 ///////////////////////////// Rotas para aluno /////////////////////////////
@@ -202,9 +192,10 @@ app.post('/aluno', (req, res) => {
 
 // Listar aluno
 // Endpoint para listar todos os alunos ou buscar por CGM
-app.get('/aluno', (req, res) => {
-    const cgm = req.query.cpf || '';  // Recebe o CGM da query string (se houver)
-
+app.get('/alunos', (req, res) => {
+    
+    const cgm = req.query.cgm || '';  // Recebe o CGM da query string (se houver)
+    console.log("ok");
     if (cgm) {
         // Se CPF foi passado, busca funcionario que possuam esse Cgm ou parte dele
         const query = `SELECT * FROM aluno WHERE cgm LIKE ?`;
@@ -251,4 +242,23 @@ app.put('/aluno/cgm/:cgm', (req, res) => {
         }
         res.send('Aluno atualizado com sucesso.');
     });
+});
+
+
+
+
+
+
+
+
+
+
+// Teste para verificar se o servidor está rodando
+app.get('/', (req, res) => {
+    res.send('Servidor está rodando e tabelas criadas!');
+});
+
+// Iniciando o servidor
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
 });

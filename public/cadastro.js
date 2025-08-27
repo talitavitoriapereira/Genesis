@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 async function cadastrarAluno(event) {
     event.preventDefault();
 
@@ -51,37 +53,43 @@ async function cadastrarAluno(event) {
 
 // Função para listar todos os alunos ou buscar alunos por CPF
 async function listarAlunos() {
+    
     // const cpf = document.getElementById('cpf').value.trim();  // Pega o valor do CPF digitado no input
-    const nome = document.getElementById('aluno-nome').value.trim();
-    const cpf = document.getElementById('aluno-cpf').value.trim();
-    const email = document.getElementById('aluno-email').value.trim();
-    const telefone_responsavel = document.getElementById('resp0-telefone').value.trim();
+    //const nome = document.getElementById('aluno-nome').value.trim();
+    const cgm = document.getElementById('aluno-matricula').value.trim();
+    //const email = document.getElementById('aluno-email').value.trim();
+    //const telefone_responsavel = document.getElementById('resp0-telefone').value.trim();
 
     let url = '/alunos';  // URL padrão para todos os alunos
 
-    if (cpf) {
+    if (cgm) {
         // Se CPF foi digitado, adiciona o parâmetro de consulta
-        url += `?cpf=${cpf}`;
+        url += `?cgm=${cgm}`;
     }
-
+    
     try {
-        const respo = await fetch(url);
-        const aluno = await respo.json();
-
+        const response = await fetch(url);
+        const alunos = await response.json();
+        
+        
         const tabela = document.getElementById('tabela-aluno');
         tabela.innerHTML = ''; // Limpa a tabela antes de preencher
-
-        if (!Array.isArray(aluno) || aluno.length === 0) {
+        
+        if (alunos.length === 0) {
+            alert("asdfasdf");
             // Caso não encontre aluno, exibe uma mensagem
             tabela.innerHTML = '<tr><td colspan="6">Nenhum aluno encontrado.</td></tr>';
+            
+            
         } else {
-            aluno.forEach(alunoItem => {
+            alert("ate aqui vaiggd");
+            alunos.forEach(aluno => {
                 const linha = document.createElement('tr');
                 linha.innerHTML = `
                     <td>${aluno.nome}</td>
                     <td>${aluno.cpf}</td>
                     <td>${aluno.email}</td>
-                    <td>${respo.telefone}</td>
+                    <td>${aluno.telefone}</td>
                 `;
                 tabela.appendChild(linha);
             });
