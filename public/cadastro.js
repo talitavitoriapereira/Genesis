@@ -16,7 +16,7 @@ async function cadastrarAluno(event) {
         cidade: document.getElementById('aluno-cidade').value,
         bairro: document.getElementById('aluno-bairro').value,
         estado: document.getElementById('aluno-estado').value,
-        numero_de_matricula: document.getElementById('aluno-matricula').value,
+        cgm: document.getElementById('aluno-matricula').value,
         curso: document.getElementById('aluno-curso').value,
         periodo: document.getElementById('aluno-periodo').value,
         turno: document.getElementById('aluno-turno').value,

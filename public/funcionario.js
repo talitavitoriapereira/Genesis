@@ -4,7 +4,7 @@ async function cadastrarfuncionario(event) {
     const funcionario = {
         nome: document.getElementById('func-nome').value,
         data_de_nascimento: document.getElementById('func-data-nascimento').value,
-        cpf:document.document.getElementById('func-cpf').value,
+        cpf:document.getElementById('func-cpf').value,
         rg: document.getElementById('func-rg').value,
         genero: document.getElementById('func-genero').value,
         estado_civil: document.getElementById('func-estado-civil').value,
@@ -20,7 +20,7 @@ async function cadastrarfuncionario(event) {
         cidade: document.getElementById('func-cidade').value,
         estado: document.getElementById('func-estado').value,
         data_adimissão: document.getElementById('func-data-admissao').value,
-        numero_matricula: document.getElementById('func-matricula').value,
+        cgm: document.getElementById('func-matricula').value,
         cargo: document.getElementById('func-cargo').value,
         carga_horaria: document.getElementById('func-carga-horaria').value,
         contrato: document.getElementById('func-tipo-contrato').value
@@ -37,7 +37,7 @@ async function cadastrarfuncionario(event) {
 
         const result = await response.json();
         if (response.ok) {
-            alert('Cliente cadastrado com sucesso!');
+            alert('Funcionario cadastrado com sucesso!');
             //document.getElementById('cliente-form').reset();
         } else {
             alert(`Erro: ${result.message}`);
