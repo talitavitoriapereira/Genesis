@@ -301,6 +301,38 @@
             width: 90%;
         }
 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .alinhaBtns {
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            cursor: pointer;
+            background: linear-gradient(135deg, #0055aa, #003c73);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
         /* Rodapé com mesmo gradiente do cabeçalho */
         .footer {
             background: linear-gradient(to right, #002346, #003c73, #0055aa);
