@@ -47,3 +47,80 @@ async function cadastrarfuncionario(event) {
         alert('Erro ao cadastrar cliente.');
     }
 }
+
+// Função para listar todos os funcionario ou buscar funcionario por CPF
+async function listarfuncionario() {
+    // const cpf = document.getElementById('cpf').value.trim();  // Pega o valor do CPF digitado no input
+    const nome = document.getElementById('funcionario-nome').value.trim();
+    const cpf = document.getElementById('funcionario-cpf').value.trim();
+    const email = document.getElementById('funcionario-email').value.trim();
+    const telefone_responsavel = document.getElementById('resp0-telefone').value.trim();
+
+    let url = '/funcionario';  // URL padrão para todos os funcionario
+
+    if (cpf) {
+        // Se CPF foi digitado, adiciona o parâmetro de consulta
+        url += `?cpf=${cpf}`;
+    }
+
+    try {
+        const respo = await fetch(url);
+        const funcionario = await respo.json();
+
+        const tabela = document.getElementById('tabela-funcionario');
+        tabela.innerHTML = ''; // Limpa a tabela antes de preencher
+
+        if (!Array.isArray(funcionario) || funcionario.length === 0) {
+            // Caso não encontre funcionario, exibe uma mensagem
+            tabela.innerHTML = '<tr><td colspan="6">Nenhum funcionario encontrado.</td></tr>';
+        } else {
+            funcionario.forEach(funcionarioItem => {
+                const linha = document.createElement('tr');
+                linha.innerHTML = `
+                    <td>${funcionario.nome}</td>
+                    <td>${funcionario.cpf}</td>
+                    <td>${funcionario.email}</td>
+                    <td>${funcionario.telefone}</td>
+                `;
+                tabela.appendChild(linha);
+            });
+        }
+    } catch (error) {
+        console.error('Erro ao listar funcionario:', error);
+    }
+}
+
+// Função para atualizar as informações do funcionario
+async function atualizarfuncionario() {
+    const nome = document.getElementById('funcionario-nome').value;
+    const cpf = document.getElementById('funcionario-cpf').value;
+    const email = document.getElementById('funcionario-email').value;
+    const telefone_responsavel = document.getElementById('resp0-telefone').value;
+
+    const funcionarioAtualizado = {
+        nome,
+        cpf,
+        email,
+        telefone_responsavel,
+    };
+
+    try {
+        const respo = await fetch(`/funcionario/cpf/${cpf}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(funcionarioAtualizado)
+        });
+
+        if (respo.ok) {
+            alert('funcionario atualizado com sucesso!');
+        } else {
+            const errorMessage = await respo.text();
+            alert('Erro ao atualizar funcionario: ' + errorMessage);
+        }
+    } catch (error) {
+        console.error('Erro ao atualizar funcionario:', error);
+        alert('Erro ao atualizar funcionario.');
+    }
+}
