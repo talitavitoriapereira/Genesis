@@ -19,7 +19,7 @@ async function cadastrarfuncionario(event) {
         bairro: document.getElementById('func-bairro').value,
         cidade: document.getElementById('func-cidade').value,
         estado: document.getElementById('func-estado').value,
-        data_adimissao: document.getElementById('func-data-admissao').value,
+        data_adimissão: document.getElementById('func-data-admissao').value,
         cgm: document.getElementById('func-matricula').value,
         cargo: document.getElementById('func-cargo').value,
         carga_horaria: document.getElementById('func-carga-horaria').value,
@@ -38,7 +38,7 @@ async function cadastrarfuncionario(event) {
         const result = await response.json();
         if (response.ok) {
             alert('Funcionario cadastrado com sucesso!');
-            //document.getElementById('cliente-form').reset();
+            //document.getElementById('funcionario-form').reset();
         } else {
             alert(`Erro: ${result.message}`);
         }
